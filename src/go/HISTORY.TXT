@@ -1,0 +1,95 @@
+iniquity a26 1st release
+------------------------
+
+1) removed async pro stuff.
+2) added eComm.pas (os2 - and - dos routines)
+3) in the os2 version, commented out the part that saves the screen data
+   to an ansi because it caused a memory violation.
+   ^^FIXED!  (had to seltoflat(scrptr) :)
+4) fixed a memory leak when a message gets aborted.
+5) commented out scrstorescreen/restorescreen in screen.pas (os2 ver)
+   ^^FIXED!  (had to seltoflat(scrptr) :)
+6) added %CH (comport handle) to the os2 version's protocol thing.
+7) sizeof(pointer^) is not a good idea fiend, changed sizeof(blah^) to
+   the actual size parameter of getmem. in the filearea.pas.  was BIG memory
+   leak.
+8) in function ioClrEol: parameters in vioscrollup needed to be 0-based (-1) :)
+   so before the screen didn't clreol correctly.
+9) ignore all LF's, in the input routine, to work with telnet clients that
+   send crlf.
+10) changed max time "default" in levels.pas (for sysop) to 999.  64000
+    made some door games mess up.
+11) doors.pas : door.sys / dorinfo#.def would show the modems comport when
+    LOCAL!.  fixed.
+12) doors.pas : if under os2, deinits the modem before loading a door, and
+    reinits it upon return.
+13) added boolean to global.pas: ignoreLF.  set to false before calling
+    iReadkey, and it will not ignore LF's.  (so the nodeChat in nodes.pas
+    doesn't get 'stuck' when someone sends a LF [ie: telnet connection]).
+14) in detect.pas, line 78, changed it so that the fg color is not changed
+    to 0 (black), cause sometimes the screen gets 'stuck' at black and ya
+    can't see anything!?!? :P
+15) ANOTHER memory leak!!!!!!  textbufsize == 32768 if in dos mode.
+    textbuf := sizeof(tscreen); in fastio.pas returns 32768 as the size..
+    this is very bad because the screen buffer is actually 4000 bytes and
+    when something did a "fillchar(blah, sizeof(tscreen), 0)"; that would
+    be overwriting about 30k of memory!
+16) config7.pas : Receive and Send "codes" fixed (when you edit them). (protocols)
+17) comm.pas : improved the hangup routine a bit.  sometimes it wouldn't hang
+    up, or something.
+18) datetime.pas : added (day*24*60*60) to dttimer, so it wouldn't go wacky
+    if the user logs on right before midnight.
+20) in the file editor - if the file area name was too long, it would corrupt
+    the screen.  fixed that by changing "iniquity file editor : +fileareaname"
+    to just "file editor : +fileareaname".  (config13.pas)
+21) removed.
+22) lots of ifdef os2's here and there.  this should be #1.  or something
+23) fixed ecomm.pas, now works correctly with 57600/115200.  or something (again)
+24) if user runs out of time while uploading, the user will get rewarded with
+    65535 minutes!? heh
+25) At the welcome screen, time would display -65535 minutes
+26) (DOS) remote user would sometimes get "garbage"
+27) (OS2) Split-Screen chat (alt-x) would sometimes "screw up"
+28) If user logs in (from matrix) with wrong password, and leaves feedback,
+    It will show that the message was "from" the user he logged on incorrectly
+    as.
+29) (OS2) Iniquity would crash if user hungup while in the fullscreen editor.
+
+iniquity a26 - May 14, 1997
+---------------------------
+
+30) Iniquity would crash if no fossil was loaded. (ioclrscr was being called
+    but ioinitfastio wasnt called yet!)
+31) "Commented-Out" the avatar detection routine because a lot of times
+    It would detect Avatar if ansi was detected.
+32) Fixed "unknown user" login bug.
+33) (OS2) On some systems it would drop dtr when going into a door.  Since it
+    no longer closes the com port before executing the door, you may have to
+    add the ,- parameter to your SIO line so os/2 doesn't bitch about the
+    modem being in use. (refer to Appendix D. of SIOREF.TXT)
+34) If ya uploaded a file with .ZIP, and then a non-archive file, it would
+    use the same description from the previous zip.  I'm not 100% sure
+    that its fixed, though.
+
+(stuff fixed by fiend, below)
+
+iniq/ log of things i fixed/changed today [03/30/97]   - mike
+==============================================================================
+! Fixed problems with detecting the correct version of windows
+! Fixed input bug where escape would have to be hit twice from the remote end
+   to do anything worthwhile.  This was annoying as hell
+! Fixed another input bug, where sometimes when holding an extended key (like
+   moving the cursor in the fse) would cause weird things to happen, like
+   randomly voiding keypresses.  Very annoying
+! Fixed bug in IPL where if you use the menucmd[] routine to switch menus,
+   the menu that was changed to would start by immediately executing the
+   command associated with the key that was pressed to run the IPL module
+% The 'exec <filespec>' command in IPL will no longer shell to a dos prompt
+   if no params are specified.  Sysops were bombing the remote end to a local
+   dos box with simple typos; not good
+! Fixed bug where the sysop could not use some of the line chatmode commands
+   The more dangerous chat commands only work on the local end, unless the
+   user that's online has sysop access (s255, or whatever it's set to)
+! Fixed bug where the wrong multinode notice string would be displayed upon
+   receiving an incoming message or broadcast from another node
+! Fixed some status bar display problems, most due to color codes
