@@ -5,13 +5,17 @@ interface
 
 procedure applyToBBS;
 
-   sfShowTextFile(txApply,ftNormal);
+implementation
+begin
+end.
 
-   if Cfg^.newVerify then
-   begin
-      oString(strNuAskApply);
-      if not iYesNo(True) then Exit;
-   end;
+sfShowTextFile(txApply,ftNormal);
+
+if Cfg^.newVerify then
+begin
+  oString(strNuAskApply);
+  if not iYesNo(True) then Exit;
+end;
 
    logWrite('-New user app process started');
 
