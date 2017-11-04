@@ -1,4 +1,4 @@
-{$F-,A+,O+,G+,R-,S+,I+,Q-,V-,B-,X+,T-,P-,N-,E+}
+{$A+,O+,R-,S+,I+,Q-,V-,B-,X+,T-,P-,}
 unit IPLX; { Iniquity Programming Language - Code Parser }
 
 interface

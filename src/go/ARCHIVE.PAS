@@ -1,4 +1,4 @@
-{$F-,A+,O+,G+,R-,S+,I+,Q-,V-,B-,X+,T-,P-,D-,L-,N-,E+}
+{$A+,O+,R-,S+,I+,Q-,V-,B-,X+,T-,P-,D-}
 unit Archive;
 
 interface
@@ -379,7 +379,7 @@ begin
       oSetCol(colInfo);
       oWriteLn(' Filename            Size        Comp  Ratio  Method     Date      Time');
       oSetCol(colBorder);
-      oWriteLn(sRepeat('Ä',79));
+      oWriteLn(sRepeat('ï¿½',79));
       oUpPause(3);
       oSetCol(colText);
    end;
@@ -396,7 +396,7 @@ begin
    end else
    begin
       oSetCol(colBorder);
-      oWriteLn(sRepeat('Ä',79));
+      oWriteLn(sRepeat('ï¿½',79));
       oUpPause(1);
       oSetCol(colText);
    end;
